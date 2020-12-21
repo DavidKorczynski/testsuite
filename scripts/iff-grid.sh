@@ -1,4 +1,6 @@
 #!/bin/sh
+test_iff_grid()
+{
 test_begin "iff-grid"
 
  if [ $test_skip = 1 ] ; then
@@ -148,3 +150,29 @@ do_test "$MP4BOX -add-image $src:id=1 -add-derived-image :type=iovl:id=2:primary
 do_hash_test $dst "overlay_large"
 
 test_end
+}
+
+test_iff_grid
+
+
+test_iff_autogrid()
+{
+test_begin "iff-autogrid"
+
+ if [ $test_skip = 1 ] ; then
+  return
+ fi
+
+img=$TEMP_DIR/res.heif
+do_test "$MP4BOX -add-image $MEDIA_DIR/auxiliary_files/counter.hvc:time=0-5 -add-image agrid -new $img" "auto_grid"
+do_hash_test $img "auto_grid"
+
+img=$TEMP_DIR/res_ar.heif
+do_test "$MP4BOX -add-image $MEDIA_DIR/auxiliary_files/counter.hvc:time=0-5 -add-image agrid=1.0 -new $img" "auto_grid_ar"
+do_hash_test $img "auto_grid_ar"
+
+
+test_end
+}
+
+test_iff_autogrid
